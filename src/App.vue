@@ -59,10 +59,12 @@
         </div>
 
         <div class="form-linha">
-          <div class="form-item">
-            <label for="dataMM">Data de expiração (MM/AA)</label>
-            <input id="dataMM" type="text" v-model="dataMM" placeholder="MM">
-            <input id="dataAA" type="text" v-model="dataAA" placeholder="AA">
+          <div class="form-item data">
+            <label for="dataMM">Validade (MM/AA)</label>
+            <div class="form-item-dataAAMM">
+              <input id="dataMM" type="text" v-model="dataMM" placeholder="MM">
+              <input id="dataAA" type="text" v-model="dataAA" placeholder="AA">
+            </div>
             <span class="error">Coloque um nome</span>
           </div>
 
@@ -126,6 +128,7 @@ main{
   align-items: center;
   gap: 20px;
   max-width: 1049px;
+  flex-grow: 1;
 }
 
 /* CARTÕES */
@@ -182,5 +185,73 @@ main{
   justify-content: flex-end;
   align-items: center;
   letter-spacing: 0.14em;
+}
+
+/* FORMULÁRIO */
+form {
+  max-width: 381px;
+}
+.error{
+  display: none;
+}
+.form-linha,
+form > .form-item + .form-item{
+  margin-top: 26px;
+}
+.form-item label{
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0B0C12;
+}
+.form-item input{
+  width: 100%;
+  margin-top: 9px;
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #CED3D9;
+  padding: 10px 16px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 0.01em;
+  transition: .2s;
+}
+.form-item input:focus{
+  border-color: #068BE4;
+}
+.form-item input::placeholder{
+  color: #CED3D9;
+}
+.form-linha {
+  display: flex;
+  gap: 20px;
+}
+.form-item-dataAAMM{
+  display: flex;
+  gap: 10px;
+}
+.form-item-dataAAMM > input{
+  width: 80px;
+}
+button {
+  margin-top: 41px;
+  border-radius: 7px;
+  border: none;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  background-color: #068BE4;
+  color: #F5F7FA;
+  cursor: pointer;
+  transition: .2s;
+}
+button:hover {
+  background-color: #0061A7;
 }
 </style>
