@@ -97,9 +97,90 @@ export default {
 </script>
 
 <style>
+/* RESETS */
 * {
   margin: 0;
   padding: 0;
   font-family: 'Space Grotesk', sans-serif;
+  box-sizing: border-box;
+}
+img{
+  display: block;
+  max-width: 100%;
+}
+
+/* MAIN */
+#app{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('../src/assets/img/bg-main-desktop.jpg');
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: contain;
+}
+main{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  max-width: 1049px;
+}
+
+/* CARTÕES */
+.cartoes{
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 541px;
+  display: flex;
+  flex-direction: column;
+  gap: 37px;
+}
+.cartao-frente{
+  position: relative;
+  max-width: 447px;
+}
+.cartao-frente-informacoes{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 28px 33px 26px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FFFFFF;
+}
+.cartao-frente-informacoes-numero{
+  font-weight: 500;
+  font-size: 28px;
+  letter-spacing: 0.12em;
+}
+.cartao-frente-informacoes-nomeData{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 26px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.cartao-verso{
+  align-self: flex-end;
+  position: relative;
+  max-width: 447px;
+  color: #FFFFFF;
+}
+.cartao-verso-informacoes{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 101px 60px 106px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  letter-spacing: 0.14em;
 }
 </style>
