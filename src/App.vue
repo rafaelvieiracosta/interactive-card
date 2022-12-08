@@ -47,99 +47,107 @@
         </div>
       </div>
 
-
-      <form @submit.prevent="enviaFormulario()">
-        <div class="form-item">
-          <label for="nome">Nome do titular</label>
-          <input 
-            id="nome" 
-            type="text" 
-            v-model="nome" 
-            placeholder="ex: Josh Ramalho"
-            :class="{ error: msgNome }"
-            @input="verificaNome()"
-            @focus="removeError()"
-          >
-          <transition>
-            <span v-if="msgNome" class="msgError">{{ msgNome }}</span>
-          </transition>
-        </div>
-
-        <div class="form-item">
-          <label for="numero">Número do cartão</label>
-          <input 
-            id="numero" 
-            ref="inputNumero"
-            type="text" 
-            v-model="numero" 
-            placeholder="ex: 4859 2350 1093 9921"
-            maxlength="19"
-            inputmode="numeric"
-            :class="{ error: msgNumero }"
-            @input="verificaNumero()"
-            @focus="removeError()"
-          >
-          <transition>
-            <span v-if="msgNumero" class="msgError">{{ msgNumero }}</span>
-          </transition>
-        </div>
-
-        <div class="form-linha">
-          <div class="form-item data">
-            <label for="dataMM">Validade (MM/AA)</label>
-            <div class="form-item-dataAAMM">
-              <input 
-                id="dataMM" 
-                type="text" 
-                ref="inputDataMM"
-                v-model="dataMM" 
-                placeholder="MM"
-                maxlength="2"
-                inputmode="numeric"
-                :class="{ error: msgDataMM }"
-                @input="verificaDataMM()"
-                @focus="removeError()"
-              >
-              <input 
-                id="dataAA" 
-                type="text"
-                ref="inputDataAA"
-                v-model="dataAA" 
-                placeholder="AA"
-                maxlength="2"
-                inputmode="numeric"
-                :class="{ error: msgDataAA }"
-                @input="verificaDataAA()"
-                @focus="removeError()"
-              >
-            </div>
+      <transition mode="out-in" name="fade">
+        <form v-if="!success" @submit.prevent="enviaFormulario()">
+          <div class="form-item">
+            <label for="nome">Nome do titular</label>
+            <input 
+              id="nome" 
+              type="text" 
+              v-model="nome" 
+              placeholder="ex: Josh Ramalho"
+              :class="{ error: msgNome }"
+              @input="verificaNome()"
+              @focus="removeError()"
+            >
             <transition>
-              <span v-if="msgDataMM || msgDataAA" class="msgError">{{ msgDataMM || msgDataAA }}</span>
+              <span v-if="msgNome" class="msgError">{{ msgNome }}</span>
             </transition>
           </div>
 
           <div class="form-item">
-            <label for="cvc">CVC</label>
+            <label for="numero">Número do cartão</label>
             <input 
-              id="cvc" 
+              id="numero" 
+              ref="inputNumero"
               type="text" 
-              ref="inputCVC"
-              v-model="cvc" 
-              placeholder="838"
-              maxlength="3"
+              v-model="numero" 
+              placeholder="ex: 4859 2350 1093 9921"
+              maxlength="19"
               inputmode="numeric"
-              :class="{ error: msgCVC }"
-              @input="verificaCVC()"
+              :class="{ error: msgNumero }"
+              @input="verificaNumero()"
               @focus="removeError()"
             >
             <transition>
-              <span v-if="msgCVC" class="msgError">{{ msgCVC }}</span>
+              <span v-if="msgNumero" class="msgError">{{ msgNumero }}</span>
             </transition>
           </div>
-        </div>
 
-        <button type="submit">Confirmar</button>
-      </form>
+          <div class="form-linha">
+            <div class="form-item data">
+              <label for="dataMM">Validade (MM/AA)</label>
+              <div class="form-item-dataAAMM">
+                <input 
+                  id="dataMM" 
+                  type="text" 
+                  ref="inputDataMM"
+                  v-model="dataMM" 
+                  placeholder="MM"
+                  maxlength="2"
+                  inputmode="numeric"
+                  :class="{ error: msgDataMM }"
+                  @input="verificaDataMM()"
+                  @focus="removeError()"
+                >
+                <input 
+                  id="dataAA" 
+                  type="text"
+                  ref="inputDataAA"
+                  v-model="dataAA" 
+                  placeholder="AA"
+                  maxlength="2"
+                  inputmode="numeric"
+                  :class="{ error: msgDataAA }"
+                  @input="verificaDataAA()"
+                  @focus="removeError()"
+                >
+              </div>
+              <transition>
+                <span v-if="msgDataMM || msgDataAA" class="msgError">{{ msgDataMM || msgDataAA }}</span>
+              </transition>
+            </div>
+
+            <div class="form-item">
+              <label for="cvc">CVC</label>
+              <input 
+                id="cvc" 
+                type="text" 
+                ref="inputCVC"
+                v-model="cvc" 
+                placeholder="838"
+                maxlength="3"
+                inputmode="numeric"
+                :class="{ error: msgCVC }"
+                @input="verificaCVC()"
+                @focus="removeError()"
+              >
+              <transition>
+                <span v-if="msgCVC" class="msgError">{{ msgCVC }}</span>
+              </transition>
+            </div>
+          </div>
+
+          <button type="submit">Confirmar</button>
+        </form>
+
+        <div v-else class="sucesso">
+          <img src="@/assets/img/icon-complete.svg" alt="Ícone check">
+          <h1 class="sucesso-titulo">Obrigado!</h1>
+          <p class="sucesso-texto">Adicionamos os detalhes do seu cartão</p>
+          <button class="sucesso-botao" @click.prevent="success = false">Continuar</button>
+        </div>
+      </transition>
     </main>
   </div>
 </template>
@@ -161,7 +169,9 @@ export default {
       msgNumero: '',
       msgDataMM: '',
       msgDataAA: '',
-      msgCVC: ''
+      msgCVC: '',
+
+      success: false
     }
   },
   methods: {
@@ -276,6 +286,16 @@ export default {
         this.msgCVC = 'Não pode ficar em branco';
       } else if (!(this.cvc.length === 3)){
         this.msgCVC = 'CVC inválido';
+      }
+
+      if (
+        this.msgNome === '' &&
+        this.msgNumero === '' &&
+        this.msgDataMM === '' &&
+        this.msgDataAA === '' &&
+        this.msgCVC === ''
+      ) {
+        this.success = true;
       }
     }
   }
@@ -453,7 +473,6 @@ button {
 button:hover {
   background-color: #0061A7;
 }
-
 .msgError{
   display: flex;
   align-items: flex-end;
@@ -466,13 +485,49 @@ button:hover {
   z-index: -1;
 }
 
+/* SUCESSO AO ENVIAR */
+.sucesso {
+  text-align: center;
+  max-width: 381px;
+  width: 100%;
+}
+.sucesso img{
+  margin: 0 auto;
+}
+.sucesso-titulo{
+  margin-top: 35px;
+  font-weight: 500;
+  font-size: 28px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00234C;
+}
+.sucesso-texto {
+  margin-top: 16px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 0.01em;
+}
+.sucesso-botao {
+  margin-top: 48px;
+}
+
+
+/* ANIMAÇÕES */
 .v-enter-active, .v-leave-active {
   transition: .4s;
   max-height: 23px;
 }
-.v-enter,
-.v-leave-to {
+.v-enter, .v-leave-to {
   max-height: 0;
+  opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: .4s;
+}
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 </style>
