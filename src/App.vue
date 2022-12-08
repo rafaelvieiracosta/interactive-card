@@ -118,7 +118,7 @@
               </transition>
             </div>
 
-            <div class="form-item">
+            <div class="form-item cvc">
               <label for="cvc">CVC</label>
               <input 
                 id="cvc" 
@@ -333,6 +333,7 @@ input[type=number] {
   background-repeat: no-repeat;
   background-position: left;
   background-size: contain;
+  padding: 16px;
 }
 main{
   display: flex;
@@ -341,12 +342,38 @@ main{
   gap: 20px;
   max-width: 1049px;
   flex-grow: 1;
+  margin-right: 63px;
 }
+@media(max-width: 880px){
+  #app{
+    background-size: 280px 100%;
+    padding: 32px 16px 45px;
+  }
+  main{
+    justify-content: center;
+    gap: 40px;
+  }
+}
+@media(max-width: 620px){
+  #app{
+    background-size: 100% 35%;
+    background-position: top;
+    background-image: url('../src/assets/img/bg-main-mobile.jpg');
+  }
+  main{
+    display: block;
+  }
+}
+/* @media(max-width: 420px){
+  #app{
+    background-size: contain;
+  }
+} */
 
 /* CARTÕES */
 .cartoes{
-  flex-shrink: 0;
   width: 100%;
+  min-width: 447px;
   max-width: 541px;
   display: flex;
   flex-direction: column;
@@ -378,6 +405,7 @@ main{
   justify-content: space-between;
   gap: 10px;
   margin-top: 26px;
+  font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -403,21 +431,78 @@ main{
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  font-size: 14px;
   letter-spacing: 0.14em;
+}
+@media(max-width: 880px){
+  .cartoes {
+    min-width: initial;
+    width: initial;
+    max-width: fit-content;
+  }
+  .cartao-frente,
+  .cartao-frente img,
+  .cartao-verso,
+  .cartao-verso img{
+    max-width: 286px;
+    height: 157px;
+  }
+  .cartao-frente-informacoes {
+    padding: 18px 21px 20px 20px;
+  }
+  .cartao-frente-informacoes img{
+    max-width: 54px;
+    height: 30px;
+  }
+  .cartao-frente-informacoes-numero{
+    font-size: 18px;
+  }
+  .cartao-frente-informacoes-nomeData{
+    font-size: 10px;
+    letter-spacing: 0.065em;
+  }
+  .cartao-verso-informacoes{
+    padding: 69px 37px 71px;
+  }
+  .cartao-verso-informacoes{
+    font-size: 10px;
+    letter-spacing: 0.09em;
+  }
+}
+@media(max-width: 620px){
+  .cartoes {
+    max-width: 343px;
+    margin: 0 auto;
+    flex-direction: column-reverse;
+    position: relative;
+  }
+  .cartao-frente{
+    position: relative;
+    z-index: 1;
+    margin-top: 94px;
+  }
+  .cartao-verso {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 
 /* FORMULÁRIO */
 form {
-  max-width: 381px;
+  min-width: 381px;
+  max-width: 381px;  
 }
 .form-linha,
 form > .form-item + .form-item{
   margin-top: 26px;
 }
 .form-item label{
+  display: block;
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
+  max-height: 15px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #0B0C12;
@@ -456,7 +541,7 @@ form > .form-item + .form-item{
   width: 80px;
 }
 button {
-  margin-top: 41px;
+  margin-top: 40px;
   border-radius: 7px;
   border: none;
   padding: 15px;
@@ -483,6 +568,20 @@ button:hover {
   color: #FF5252;
   position: relative;
   z-index: -1;
+}
+@media(max-width: 880px){
+  form {
+    min-width: initial;
+  }
+}
+@media(max-width: 620px){
+  form {
+    max-width: initial;
+    margin-top: 48px;
+  }
+  .form-item.cvc{
+    flex-grow: 1;
+  }
 }
 
 /* SUCESSO AO ENVIAR */
@@ -511,6 +610,11 @@ button:hover {
 }
 .sucesso-botao {
   margin-top: 48px;
+}
+@media(max-width: 880px){
+  .sucesso {
+    margin: 48px auto 0;
+  }
 }
 
 
