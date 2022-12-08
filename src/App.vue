@@ -363,7 +363,7 @@ main{
 }
 @media(max-width: 620px){
   #app{
-    background-size: 100% 35%;
+    background-size: 100% 30%;
     background-position: top;
     background-image: url('../src/assets/img/bg-main-mobile.jpg');
   }
