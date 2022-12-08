@@ -18,14 +18,14 @@
             >
             <div class="cartao-frente-informacoes-container">
               <span class="cartao-frente-informacoes-numero">
-                0000 0000 0000 0000
+                {{ numero || '0000 0000 0000 0000' }}
               </span>
               <div class="cartao-frente-informacoes-nomeData">
                 <p class="cartao-frente-informacoes-nome">
-                  Jane Appleseed
+                  {{ nome || 'Josh Ramalho' }}
                 </p>
                 <span class="cartao-frente-informacoes-data">
-                  00/00
+                  {{ dataMM || '00' }}/{{ dataAA || '00'}}
                 </span>
               </div>
             </div>
@@ -40,38 +40,101 @@
             height="245"
           >
           <div class="cartao-verso-informacoes">
-            <p class="cartao-verso-informacoes-cvc">000</p>
+            <p class="cartao-verso-informacoes-cvc">
+              {{ cvc || '000'}}
+            </p>
           </div>
         </div>
       </div>
 
-      <form action="">
+
+      <form @submit.prevent="enviaFormulario()">
         <div class="form-item">
           <label for="nome">Nome do titular</label>
-          <input id="nome" type="text" v-model="nome" placeholder="ex: Josh Ramalho">
-          <span class="error">Coloque um nome</span>
+          <input 
+            id="nome" 
+            type="text" 
+            v-model="nome" 
+            placeholder="ex: Josh Ramalho"
+            :class="{ error: msgNome }"
+            @input="verificaNome()"
+            @focus="removeError()"
+          >
+          <transition>
+            <span v-if="msgNome" class="msgError">{{ msgNome }}</span>
+          </transition>
         </div>
 
         <div class="form-item">
           <label for="numero">Número do cartão</label>
-          <input id="numero" type="text" v-model="numero" placeholder="ex: 4859 2350 1093 9921">
-          <span class="error">Coloque um nome</span>
+          <input 
+            id="numero" 
+            ref="inputNumero"
+            type="text" 
+            v-model="numero" 
+            placeholder="ex: 4859 2350 1093 9921"
+            maxlength="19"
+            inputmode="numeric"
+            :class="{ error: msgNumero }"
+            @input="verificaNumero()"
+            @focus="removeError()"
+          >
+          <transition>
+            <span v-if="msgNumero" class="msgError">{{ msgNumero }}</span>
+          </transition>
         </div>
 
         <div class="form-linha">
           <div class="form-item data">
             <label for="dataMM">Validade (MM/AA)</label>
             <div class="form-item-dataAAMM">
-              <input id="dataMM" type="text" v-model="dataMM" placeholder="MM">
-              <input id="dataAA" type="text" v-model="dataAA" placeholder="AA">
+              <input 
+                id="dataMM" 
+                type="text" 
+                ref="inputDataMM"
+                v-model="dataMM" 
+                placeholder="MM"
+                maxlength="2"
+                inputmode="numeric"
+                :class="{ error: msgDataMM }"
+                @input="verificaDataMM()"
+                @focus="removeError()"
+              >
+              <input 
+                id="dataAA" 
+                type="text"
+                ref="inputDataAA"
+                v-model="dataAA" 
+                placeholder="AA"
+                maxlength="2"
+                inputmode="numeric"
+                :class="{ error: msgDataAA }"
+                @input="verificaDataAA()"
+                @focus="removeError()"
+              >
             </div>
-            <span class="error">Coloque um nome</span>
+            <transition>
+              <span v-if="msgDataMM || msgDataAA" class="msgError">{{ msgDataMM || msgDataAA }}</span>
+            </transition>
           </div>
 
           <div class="form-item">
             <label for="cvc">CVC</label>
-            <input id="cvc" type="text" v-model="cvc" placeholder="838">
-            <span class="error">Coloque um nome</span>
+            <input 
+              id="cvc" 
+              type="text" 
+              ref="inputCVC"
+              v-model="cvc" 
+              placeholder="838"
+              maxlength="3"
+              inputmode="numeric"
+              :class="{ error: msgCVC }"
+              @input="verificaCVC()"
+              @focus="removeError()"
+            >
+            <transition>
+              <span v-if="msgCVC" class="msgError">{{ msgCVC }}</span>
+            </transition>
           </div>
         </div>
 
@@ -84,15 +147,136 @@
 <script>
 
 export default {
-  name: 'Dados do cartão',
+  name: 'card',
 
   data(){
     return{
-      nome: null,
-      numero: null,
-      dataMM: null,
-      dataAA: null,
-      cvc: null
+      nome: '',
+      numero: '',
+      dataMM: '',
+      dataAA: '',
+      cvc: '',
+
+      msgNome: '',
+      msgNumero: '',
+      msgDataMM: '',
+      msgDataAA: '',
+      msgCVC: ''
+    }
+  },
+  methods: {
+    apenasLetras (string) {
+      return string.replace(/[^a-z\s]/gi, "");
+    },
+    apenasNumeros (string){
+      return string.replace(/[^0-9]/g, "");
+    },
+
+    verificaNome () {
+      this.nome = this.apenasLetras(this.nome);
+    },
+    verificaNumero () {
+      this.numero = this.apenasNumeros(this.numero);
+      this.numero = this.numero.replace(/([0-9]{4})/g, "$1 ").trimEnd();
+
+      if(this.numero.length === 19){
+        this.$refs.inputDataMM.focus();
+      }
+    },
+    verificaDataMM () {
+      this.dataMM = this.apenasNumeros(this.dataMM);
+      this.dataMM = this.dataMM
+
+      if(event.inputType === 'deleteContentBackward' && this.dataMM.length === 0){
+        this.$refs.inputNumero.focus();
+      }
+      else if(this.dataMM.length === 2){
+        this.$refs.inputDataAA.focus();
+      }
+    },
+    verificaDataAA () {
+      this.dataAA = this.apenasNumeros(this.dataAA);
+
+      if(event.inputType === 'deleteContentBackward' && this.dataAA.length === 0){
+        this.$refs.inputDataMM.focus();
+      }
+      else if(this.dataAA.length === 2){
+        this.$refs.inputCVC.focus();
+      }
+    },
+    verificaCVC () {
+      this.cvc = this.apenasNumeros(this.cvc);
+
+      if(event.inputType === 'deleteContentBackward' && this.cvc.length === 0){
+        this.$refs.inputDataAA.focus();
+      }
+    },
+
+    removeError () {
+      const element = event.target;
+      const id = event.target.id;
+
+      if (element.classList.contains('error')){
+        element.classList.remove('error');
+
+        switch (id) {
+          case 'nome':
+            this.msgNome = '';
+            break;
+          case 'numero':
+            this.msgNumero = '';
+            break;
+          case 'dataMM':
+            this.msgDataMM = '';
+            break;
+          case 'dataAA':
+            this.msgDataAA = '';
+            break;
+          case 'cvc':
+            this.msgCVC = '';
+            break;
+        }
+      }
+    },
+
+    enviaFormulario () {
+      if (this.nome.length === 0) {
+        this.msgNome = 'Não pode ficar em branco';
+      } else if (!(this.nome.length > 2)) {
+        this.msgNome = 'Digite um nome verdadeiro';
+      } else if (!(/\s\w{3}/i.test(this.nome))) {
+        this.msgNome = 'Digite seu nome e sobrenome';
+      }
+
+      if (this.numero.length === 0) {
+        this.msgNumero = 'Não pode ficar em branco';
+      } else if (this.numero.length === 18){
+        this.msgNumero = 'Falta um dígito do seu cartão'
+      } else if (!(this.numero.length === 19)){
+        this.msgNumero = 'Digite um número válido'
+      }
+
+      if (this.dataMM.length === 0) {
+        this.msgDataMM = 'Não pode ficar em branco';
+      } else if (!(this.dataMM.length === 2)){
+        this.msgDataMM = 'Data inválida';
+      } else if (this.dataMM === '00'){
+        this.msgDataMM = 'Data inválida';
+      }
+
+      if (this.dataAA.length === 0) {
+        this.msgDataAA = 'Não pode ficar em branco';
+      } else if (!(this.dataAA.length === 2)){
+        this.msgDataAA = 'Data inválida';
+      } else if (this.dataAA === '00'){
+        this.msgDataAA = 'Data inválida';
+      }
+
+      if (this.cvc.length === 0) {
+        this.msgCVC = 'Não pode ficar em branco';
+      } else if (!(this.cvc.length === 3)){
+        this.msgCVC = 'CVC inválido';
+      }
     }
   }
 }
@@ -109,6 +293,14 @@ export default {
 img{
   display: block;
   max-width: 100%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /* MAIN */
@@ -164,9 +356,16 @@ main{
 .cartao-frente-informacoes-nomeData{
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   margin-top: 26px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+.cartao-frente-informacoes-nome{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .cartao-verso{
   align-self: flex-end;
@@ -190,9 +389,6 @@ main{
 /* FORMULÁRIO */
 form {
   max-width: 381px;
-}
-.error{
-  display: none;
 }
 .form-linha,
 form > .form-item + .form-item{
@@ -218,6 +414,9 @@ form > .form-item + .form-item{
   line-height: 23px;
   letter-spacing: 0.01em;
   transition: .2s;
+}
+.form-item input.error{
+  border-color: #FF5252;
 }
 .form-item input:focus{
   border-color: #068BE4;
@@ -253,5 +452,27 @@ button {
 }
 button:hover {
   background-color: #0061A7;
+}
+
+.msgError{
+  display: flex;
+  align-items: flex-end;
+  height: 23px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FF5252;
+  position: relative;
+  z-index: -1;
+}
+
+.v-enter-active, .v-leave-active {
+  transition: .4s;
+  max-height: 23px;
+}
+.v-enter,
+.v-leave-to {
+  max-height: 0;
+  opacity: 0;
 }
 </style>
