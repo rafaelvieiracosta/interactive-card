@@ -523,6 +523,8 @@ form > .form-item + .form-item{
   line-height: 23px;
   letter-spacing: 0.01em;
   transition: .2s;
+  position: relative;
+  z-index: 2;
 }
 .form-item input.error{
   border-color: #FF5252;
@@ -571,7 +573,7 @@ button:hover {
   line-height: 15px;
   color: #FF5252;
   position: relative;
-  z-index: -1;
+  z-index: 1;
 }
 @media(max-width: 620px){
   form {
