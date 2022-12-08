@@ -515,7 +515,7 @@ form > .form-item + .form-item{
   margin-top: 9px;
   border-radius: 8px;
   outline: none;
-  border: 1px solid #CED3D9;
+  border: 1px solid #B2B8BF;
   background-color: #F5F7FA;
   padding: 10px 16px;
   font-weight: 500;
@@ -531,7 +531,7 @@ form > .form-item + .form-item{
   border-color: #068BE4;
 }
 .form-item input::placeholder{
-  color: #CED3D9;
+  color: #B2B8BF;
 }
 .form-linha {
   display: flex;
