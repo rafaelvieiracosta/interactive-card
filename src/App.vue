@@ -332,7 +332,7 @@ input[type=number] {
   background-image: url('../src/assets/img/bg-main-desktop.jpg');
   background-repeat: no-repeat;
   background-position: left;
-  background-size: contain;
+  background-size: 40%;
   padding: 16px;
 }
 main{
@@ -344,6 +344,11 @@ main{
   flex-grow: 1;
   margin-right: 63px;
 }
+@media(max-width: 1450px){
+  #app{
+    background-size: contain;
+  }
+}
 @media(max-width: 880px){
   #app{
     background-size: 280px 100%;
@@ -352,6 +357,7 @@ main{
   main{
     justify-content: center;
     gap: 40px;
+    margin-right: 0;
   }
 }
 @media(max-width: 620px){
@@ -364,11 +370,6 @@ main{
     display: block;
   }
 }
-/* @media(max-width: 420px){
-  #app{
-    background-size: contain;
-  }
-} */
 
 /* CARTÕES */
 .cartoes{
@@ -490,7 +491,6 @@ main{
 
 /* FORMULÁRIO */
 form {
-  min-width: 381px;
   max-width: 381px;  
 }
 .form-linha,
@@ -568,11 +568,6 @@ button:hover {
   color: #FF5252;
   position: relative;
   z-index: -1;
-}
-@media(max-width: 880px){
-  form {
-    min-width: initial;
-  }
 }
 @media(max-width: 620px){
   form {
