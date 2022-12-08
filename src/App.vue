@@ -330,6 +330,7 @@ input[type=number] {
   align-items: center;
   min-height: 100vh;
   background-image: url('../src/assets/img/bg-main-desktop.jpg');
+  background-color: #F5F7FA;
   background-repeat: no-repeat;
   background-position: left;
   background-size: 40%;
@@ -383,6 +384,7 @@ main{
 .cartao-frente{
   position: relative;
   max-width: 447px;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
 .cartao-frente-informacoes{
   position: absolute;
@@ -421,6 +423,7 @@ main{
   position: relative;
   max-width: 447px;
   color: #FFFFFF;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
 }
 .cartao-verso-informacoes{
   position: absolute;
@@ -513,6 +516,7 @@ form > .form-item + .form-item{
   border-radius: 8px;
   outline: none;
   border: 1px solid #CED3D9;
+  background-color: #F5F7FA;
   padding: 10px 16px;
   font-weight: 500;
   font-size: 18px;
